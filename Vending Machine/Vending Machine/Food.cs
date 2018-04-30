@@ -8,5 +8,9 @@ namespace Vending_Machine
 {
     class Food : Product
     {
+        public Food(string receivedName)
+        {
+            name = receivedName;
+        }
     }
 }
