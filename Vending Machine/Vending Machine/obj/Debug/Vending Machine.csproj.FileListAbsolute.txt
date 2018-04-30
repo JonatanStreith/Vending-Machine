@@ -1,0 +1,7 @@
+C:\Users\Lexicon\source\repos\Vending Machine\Vending-Machine\Vending Machine\Vending Machine\bin\Debug\Vending Machine.exe.config
+C:\Users\Lexicon\source\repos\Vending Machine\Vending-Machine\Vending Machine\Vending Machine\bin\Debug\Vending Machine.exe
+C:\Users\Lexicon\source\repos\Vending Machine\Vending-Machine\Vending Machine\Vending Machine\bin\Debug\Vending Machine.pdb
+C:\Users\Lexicon\source\repos\Vending Machine\Vending-Machine\Vending Machine\Vending Machine\obj\Debug\Vending Machine.csprojResolveAssemblyReference.cache
+C:\Users\Lexicon\source\repos\Vending Machine\Vending-Machine\Vending Machine\Vending Machine\obj\Debug\Vending Machine.csproj.CoreCompileInputs.cache
+C:\Users\Lexicon\source\repos\Vending Machine\Vending-Machine\Vending Machine\Vending Machine\obj\Debug\Vending Machine.exe
+C:\Users\Lexicon\source\repos\Vending Machine\Vending-Machine\Vending Machine\Vending Machine\obj\Debug\Vending Machine.pdb
