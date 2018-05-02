@@ -16,8 +16,8 @@ namespace Vending_Machine
 
             Vending_Machine QS = new Vending_Machine();
 
-
-            Console.WriteLine("Welcome to Quick-Snack, your premier choice for avoiding strvation death!");
+            Console.WriteLine();
+            Console.WriteLine("Welcome to Quick-Snack, your premier choice for avoiding starvation death!");
             Console.WriteLine();
             Console.WriteLine("To make a purchase, deposit as much money as you like \ninto the marked receptacles, then choose any product from the menu.");
             Console.WriteLine();
@@ -30,6 +30,7 @@ namespace Vending_Machine
 
             while (true)
             {
+                Console.WriteLine();
                 PrintMenu();
                 Console.WriteLine();
 
@@ -41,7 +42,7 @@ namespace Vending_Machine
                 QS.keyPressed = Console.ReadKey(true);      //Store the key pressed
 
                 Console.Clear();
-
+                Console.WriteLine();
 
                 switch (QS.keyPressed.Key)
                 {
@@ -50,11 +51,15 @@ namespace Vending_Machine
                         break;
 
                     case ConsoleKey.L:
-                        ListProducts();
+                        ListProductsWithoutSelectors();
                         break;
 
                     case ConsoleKey.P:
                         PurchaseProducts(QS);
+                        break;
+
+                    case ConsoleKey.I:
+                        InspectProduct(QS);
                         break;
 
                     case ConsoleKey.C:
@@ -62,22 +67,15 @@ namespace Vending_Machine
                         break;
 
                     case ConsoleKey.R:
-                        ReturnMoney(QS.GetAvailableMoney());
-                        QS.SetAvailableMoney(0);
+                        PayBack(QS);
                         break;
 
                     case ConsoleKey.Q:
-                        Console.WriteLine();
-                        Console.WriteLine("Goodbye! Enjoy your snacks!");
-                        Console.ReadLine();
-                        Environment.Exit(0);
+                        Quit();
                         break;
 
                     case ConsoleKey.Escape:
-                        Console.WriteLine();
-                        Console.WriteLine("Goodbye! Enjoy your snacks!");
-                        Console.ReadLine();
-                        Environment.Exit(0);
+                        Quit();
                         break;
 
 
@@ -101,7 +99,8 @@ namespace Vending_Machine
             Console.WriteLine("Deposit money: M");
             Console.WriteLine("See list of products: L");
             Console.WriteLine("Make purchase: P");
-            Console.WriteLine("Consume product: C");
+            Console.WriteLine("Inspect purchase: I");
+            Console.WriteLine("Consume purchase: C");
             Console.WriteLine("Return remaining money: R");
             Console.WriteLine("Quit: Q or Escape");
             Console.WriteLine();
@@ -119,7 +118,7 @@ namespace Vending_Machine
         {
             int deposited = 0;
             int total = 0;
-            Console.WriteLine("Choose money to deposit. Machine will not accept non-legal tender. Press Escape to finish.");
+            Console.WriteLine("Choose money to deposit. Machine will not accept non-legal tender. Press Return or Escape to finish.");
             Console.WriteLine();
 
             for (int i = 0; i < machine.moneyArray.Length; i++)
@@ -146,7 +145,7 @@ namespace Vending_Machine
                 { deposited = 500; }
                 else if ((machine.keyPressed.Key == ConsoleKey.D8) || (machine.keyPressed.Key == ConsoleKey.NumPad8))
                 { deposited = 1000; }
-                else if (machine.keyPressed.Key == ConsoleKey.Escape)
+                else if ((machine.keyPressed.Key == ConsoleKey.Escape) || (machine.keyPressed.Key == ConsoleKey.Enter))
                 { Console.WriteLine("Thank you for depositing your money!"); }
                 else
                 { Console.WriteLine("Illegal command."); }
@@ -154,11 +153,11 @@ namespace Vending_Machine
                 total += deposited;
 
                 if (deposited > 0)
-                { Console.WriteLine($"{total}kr"); }
+                { Console.WriteLine($"You deposit {deposited} for a total of {total}kr so far."); }
 
 
 
-            } while (machine.keyPressed.Key != ConsoleKey.Escape);
+            } while (!((machine.keyPressed.Key == ConsoleKey.Escape) || (machine.keyPressed.Key == ConsoleKey.Enter)));
 
             Console.WriteLine($"You have deposited {total}kr.");
 
@@ -177,6 +176,11 @@ namespace Vending_Machine
             { Console.WriteLine($"{Data.vendingMenu[i, 0]}: {Data.vendingMenu[i, 1]}"); }
         }
 
+        public static void ListProductsWithoutSelectors()
+        {
+            for (int i = 0; i < Data.vendingMenu.GetLength(0); i++)
+            { Console.WriteLine($"{Data.vendingMenu[i, 1]}"); }
+        }
 
 
 
@@ -228,6 +232,29 @@ namespace Vending_Machine
 
         }
 
+        public static void InspectProduct(Vending_Machine machine)
+        {
+            Console.WriteLine("You have purchased so far:");
+            ListPurchases(machine);
+            Console.WriteLine();
+            Console.WriteLine("What would you like to look at?");
+            Console.WriteLine();
+            Console.Write("Choice: ");
+
+            bool realNumber = Int32.TryParse(Console.ReadLine(), out int choice);
+
+            string textChoice = machine.GetList()[choice - 1].GetName();
+
+
+
+            Console.WriteLine(Data.descriptions[textChoice]);
+
+
+        }
+
+
+
+
         public static void ConsumeProducts(Vending_Machine machine)
         {
 
@@ -238,9 +265,8 @@ namespace Vending_Machine
             Console.WriteLine();
             Console.Write("Choice: ");
 
-            int choice;
 
-            bool realNumber = Int32.TryParse(Console.ReadLine(), out choice);
+            bool realNumber = Int32.TryParse(Console.ReadLine(), out int choice);
 
             if (realNumber && choice > 0)
             {
@@ -258,7 +284,12 @@ namespace Vending_Machine
 
         }
 
+        public static void PayBack(Vending_Machine machine)
+        {
+            ReturnMoney(machine.GetAvailableMoney());
+            machine.SetAvailableMoney(0);
 
+        }
 
 
 
@@ -415,6 +446,15 @@ namespace Vending_Machine
             else { Console.WriteLine("Unrecognized format."); }
 
             Console.WriteLine($"You receive {Data.vendingMenu[product, 2]}.");
+        }
+
+
+        public static void Quit()
+        {
+            Console.WriteLine("Goodbye! Enjoy your snacks, and thank you for using Quick-Snack for all your quick snack needs!");
+            Console.WriteLine("The Quick-Snack Corporation hopes that you'll survive long enough to use Quick-Snack again!");
+            Console.ReadLine();
+            Environment.Exit(0);
         }
 
     }
